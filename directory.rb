@@ -1,18 +1,20 @@
-# list of students
+# input students
 
-students = [
-  {name: "Dr. Hannibal Lecter", cohort: :november},
-  {name: "Darth Vader", cohort: :november},
-  {name: "Nurse Ratched", cohort: :november},
-  {name: "Michael Corleone", cohort: :november},
-  {name: "Alex DeLarge", cohort: :november},
-  {name: "The Wicked Witch of the West", cohort: :november},
-  {name: "Terminator", cohort: :november},
-  {name: "Freddy Krueger", cohort: :november},
-  {name: "The Joker", cohort: :november},
-  {name: "Joffrey Baratheon", cohort: :november},
-  {name: "Norman Bates", cohort: :november}
-]
+def input_students
+  students = []
+
+  puts "Please enter a student name"
+  puts "Hit enter twice to finish"
+  name = gets.chomp
+
+  while !name.empty? do
+    students << {name: name, cohort: :november}
+    puts "We now have #{students.count} student(s). Next student name? (Hit enter twice to finish)"
+    name = gets.chomp
+  end
+
+  students
+end
 
 # Define methods
 
@@ -31,6 +33,7 @@ end
 
 # Call methods
 
+students = input_students
 print_header
 print(students)
 print_footer(students)
