@@ -12,9 +12,24 @@ students = [
   "Joffrey Baratheon",
   "Norman Bates"
 ]
-# print list of students
-puts "The students of Villains Academy"
-puts "-------------"
-students.each { |student| puts student }
-# print total number of students
-puts "Overall, we have #{students.count} great students"
+
+# Define methods
+
+def print_header
+  puts "The students of Villains Academy"
+  puts "-------------"
+end
+
+def print(students)
+  students.each { |student| puts student }
+end
+
+def print_footer(students)
+  puts "Overall, we have #{students.count} great students"
+end
+
+# Call methods
+
+print_header
+print(students)
+print_footer(students)
