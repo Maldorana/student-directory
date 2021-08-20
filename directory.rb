@@ -1,65 +1,91 @@
-# input students
+@students = []
+
+def interactive_menu
+  while true do
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "3. Save the list to students.csv"
+  puts "9. Exit"
+end
+
+def show_students
+  print_header
+  print_students_list
+  print_footer
+end
+
+def process(selection)
+  case selection
+  when "1"
+    # input the students
+    input_students
+  when "2"
+    # show the students
+    show_students
+  when "3"
+    # save the students
+    save_students
+  when "9"
+    exit
+  else
+    puts "I don't know what you mean. Try again."
+  end
+end
 
 def input_students
-  students = []
-  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
-  while true do
-    puts "Please enter a student name (leave blank to finish)"
+  puts "Please enter the names of the students"
+  puts "To finish, just hit return twice"
+  # get the first name
+  name = gets.chomp
+  # while the name is not empty, repeat this code
+  while !name.empty? do
+    # add the student hash to the array
+    @students << { name: name, cohort: :november }
+    puts "Now we have #{@students.count} students"
+    # get another name from the user
     name = gets.chomp
-    return students if name.empty?
-    puts "Please enter this student's cohort"
-    cohort = gets.chomp
-    if cohort.empty?
-      cohort = :November
-    elsif !months.include?(cohort.capitalize)
-      puts "That's not a month. Reverting to default value."
-      cohort = :November
-    else
-      cohort.capitalize.to_sym
-    end
- 
-     students << {name: name, cohort: cohort}
-    if students.count == 1
-      puts "We now have #{students.count} student."
-    elsif students.count > 1
-      puts "We now have #{students.count} students."
-    end
   end
-
-  students
+  # return the array of students
+  @students
 end
-
-# Output Students
 
 def print_header
-  puts "----------------------------".center(50, "-")
-  puts " The students of Villains Academy ".center(50, "-")
-  puts "----------------------------".center(50, "-")
+  puts "-------------"
+  puts "The students of my cohort at Makers Academy"
+  puts "-------------"
 end
 
-def print(students)
-  cohorts = []
-
-  students.each { |student| cohorts << student[:cohort].to_s.capitalize if !cohorts.include?(student[:cohort].to_s.capitalize) }
-  
-  cohorts.each do |cohort|
-    puts cohort.upcase.center(50, "-")
-    students.each do |student|
-      puts student[:name].center(50) if student[:cohort].to_s.capitalize == cohort
+def print_students_list
+  if !@students.empty?
+    @students.each do |student|
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
     end
+  else
+    puts "No students"
   end
 end
 
-def print_footer(students)
-  puts "-".center(50, "-")
-  puts "Overall, we have #{students.count} great students".center(50)
-  puts "-".center(50, "-")
+def print_footer
+  puts "-------------"
+  puts "Overall, we have #{@students.count} great students"
+  puts "-------------"
 end
 
-# Call methods
+def save_students
+  file = File.open("students.csv", "w")
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    student_string = student_data.join(",")
+    file.puts student_string
+  end
+  file.close
+  puts "File has been saved"
+end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+interactive_menu
